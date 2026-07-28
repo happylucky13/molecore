@@ -1,4 +1,4 @@
-package io.github.sree.settings;
+package io.github.sree.start;
 
 import java.util.UUID;
 
