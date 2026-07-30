@@ -1,4 +1,4 @@
-package io.github.sree.start;
+package io.github.sree.state.settings;
 
 public enum Objective {
     WITHER,

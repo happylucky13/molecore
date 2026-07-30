@@ -9,8 +9,8 @@ import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 public class MolecoreSettingsCommand {
 
     public LiteralArgumentBuilder<CommandSourceStack> createCommand() {
-        return Commands.literal("start")
-                .then(Commands.argument("mole_count", IntegerArgumentType.integer())
+        return Commands.literal("state")
+                .then(Commands.argument("mole_count", IntegerArgumentType.integer(1, 3))
                         .then(Commands.argument("world", ArgumentTypes.world())
                                 .then(Commands.literal("beacon"))
                                 .then(Commands.literal("dragon_egg"))
