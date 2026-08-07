@@ -11,13 +11,22 @@ import java.util.*;
 public class GameManager {
     private GameSettings settings = new GameSettings(2, Objective.WITHER, "world");
     private final Map<UUID, Role> roleMap = new HashMap<>();
+    private boolean gameStarted;
 
     public GameSettings getSettings() {
         return settings;
     }
 
+    public boolean getGameStarted() {
+        return gameStarted;
+    }
+
     public void setSettings(int moleCount, Objective objective, String worldName) {
         settings = new GameSettings(moleCount, objective, worldName);
+    }
+
+    public Role getRole(Player player) {
+        return roleMap.get(player.getUniqueId());
     }
 
     public void startGame() {
@@ -33,5 +42,7 @@ public class GameManager {
 
             roleMap.put(shuffledPlayers.get(i).getUniqueId(), Role.SURVIVOR);
         }
+
+        gameStarted = true;
     }
 }
