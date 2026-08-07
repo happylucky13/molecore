@@ -1,20 +1,52 @@
 package io.github.sree.commands;
 
+import com.mojang.brigadier.Command;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.context.CommandContext;
+import io.github.sree.state.GameManager;
+import io.github.sree.state.settings.GameSettings;
+import io.github.sree.state.settings.Objective;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
+import org.bukkit.command.CommandSender;
 
 public class MolecoreSettingsCommand {
+
+    final GameManager gameManager;
+
+    public MolecoreSettingsCommand(GameManager gameManager) {
+        this.gameManager = gameManager;
+    }
 
     public LiteralArgumentBuilder<CommandSourceStack> createCommand() {
         return Commands.literal("state")
                 .then(Commands.argument("mole_count", IntegerArgumentType.integer(1, 3))
-                        .then(Commands.argument("world", ArgumentTypes.world())
-                                .then(Commands.literal("beacon"))
-                                .then(Commands.literal("dragon_egg"))
+                        .then(Commands.argument("world", StringArgumentType.string())
+                                .then(Commands.literal("beacon")
+                                        .executes(this::setBeaconSettings)
+                                )
+                                .then(Commands.literal("dragon_egg")
+                                        .executes(this::setEggSettings)
+                                )
                         )
                 );
+    }
+
+    private int setBeaconSettings(CommandContext<CommandSourceStack> ctx) {
+        CommandSender sender = ctx.getSource().getSender();
+        int moleCount = ctx.getArgument("mole_count", Integer.class);
+        String worldName = ctx.getArgument("world", String.class);
+
+        gameManager.setSettings(moleCount, Objective.WITHER, worldName);
+
+
+        return Command.SINGLE_SUCCESS;
+    }
+
+    private int setEggSettings(CommandContext<CommandSourceStack> ctx) {
+        return Command.SINGLE_SUCCESS;
     }
 }
