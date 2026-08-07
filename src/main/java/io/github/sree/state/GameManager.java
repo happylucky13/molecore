@@ -3,13 +3,16 @@ package io.github.sree.state;
 import io.github.sree.MolecorePlugin;
 import io.github.sree.enums.Role;
 import io.github.sree.enums.Objective;
+import io.github.sree.enums.Winner;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
 
@@ -31,7 +34,7 @@ public class GameManager {
         return settings;
     }
 
-    public boolean getGameStarted() {
+    public boolean isGameStarted() {
         return gameStarted;
     }
 
@@ -93,14 +96,30 @@ public class GameManager {
             plugin.getLogger().info(PlainTextComponentSerializer.plainText().serialize(deathComponent));
         }
 
-        player.sendMessage(Component.text("Good game!", NamedTextColor.LIGHT_PURPLE));
         player.setGameMode(GameMode.SPECTATOR);
         alivePlayers.remove(player.getUniqueId());
+        checkWinCondition();
 
         event.deathMessage(null);
     }
 
-    public void checkWinCondition(boolean objectiveCompleted) {
+    private void checkWinCondition() {
+        boolean survivorsAlive = alivePlayers.stream()
+                .anyMatch(uuid -> roleMap.get(uuid) == Role.SURVIVOR);
 
+        if (!survivorsAlive) {
+            endGame(Winner.MOLES);
+        }
+    }
+
+    public void checkObjectiveCompletion(Player player) {
+        Material objective = settings.objective() == Objective.WITHER ? Material.BEACON : Material.DRAGON_EGG;
+        if (player.getInventory().contains(objective) && getRole(player) == Role.SURVIVOR) {
+            endGame(Winner.SURVIVORS);
+        }
+    }
+
+    private void endGame(Winner winner) {
+        return;
     }
 }

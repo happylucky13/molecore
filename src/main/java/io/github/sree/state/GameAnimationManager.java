@@ -8,6 +8,7 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.time.Duration;
 import java.util.Map;
@@ -90,6 +91,14 @@ public class GameAnimationManager {
                                 )
                         )
                 );
+
+                switch (role) {
+                    case Role.SURVIVOR:
+                        player.sendMessage(Component.text("You are a SURVIVOR! Complete the objective for your team to win.", color));
+                        break;
+                    case Role.MOLE:
+                        player.sendMessage(Component.text("You are a MOLE! Kill all survivors for your team to win.", color));
+                }
 
                 player.playSound(
                         player.getLocation(),

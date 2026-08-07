@@ -20,7 +20,7 @@ public class PlayerDeathListener implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent event) {
-        if (!gameManager.getGameStarted()) {
+        if (!gameManager.isGameStarted()) {
             return;
         }
 
