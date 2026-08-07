@@ -42,11 +42,16 @@ public class MolecoreSettingsCommand {
 
         gameManager.setSettings(moleCount, Objective.WITHER, worldName);
 
-
         return Command.SINGLE_SUCCESS;
     }
 
     private int setEggSettings(CommandContext<CommandSourceStack> ctx) {
+        CommandSender sender = ctx.getSource().getSender();
+        int moleCount = ctx.getArgument("mole_count", Integer.class);
+        String worldName = ctx.getArgument("world", String.class);
+
+        gameManager.setSettings(moleCount, Objective.DRAGON, worldName);
+
         return Command.SINGLE_SUCCESS;
     }
 }
