@@ -16,13 +16,16 @@ import java.util.*;
 
 public class GameManager {
     private final MolecorePlugin plugin;
+    private final GameAnimationManager animationManager;
+
     private GameSettings settings = new GameSettings(2, Objective.WITHER, "world");
     private final Map<UUID, Role> roleMap = new HashMap<>();
     private final Set<UUID> alivePlayers = new HashSet<>();
     private boolean gameStarted;
 
-    public GameManager(MolecorePlugin plugin) {
+    public GameManager(MolecorePlugin plugin, GameAnimationManager animationManager) {
         this.plugin = plugin;
+        this.animationManager = animationManager;
     }
 
     public GameSettings getSettings() {
@@ -41,16 +44,38 @@ public class GameManager {
         return roleMap.get(player.getUniqueId());
     }
 
+    public void teleportPlayers() {
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.teleportAsync(Bukkit.getWorld(settings.worldName()).getSpawnLocation());
+        }
+    }
+
     public void startGame() {
+        List<Player> shuffledPlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+        Map<Player, Role> players = new HashMap<>();
+        Collections.shuffle(shuffledPlayers);
+
+        assignRoles(shuffledPlayers);
+
+        for (UUID uuid : roleMap.keySet()) {
+            Player player = Bukkit.getPlayer(uuid);
+
+            if (player != null) {
+                players.put(player, roleMap.get(uuid));
+            }
+        }
+
+        animationManager.startGameSequence(players, this::teleportPlayers);
+        gameStarted = true;
+    }
+
+    public void assignRoles(List<Player> shuffledPlayers) {
         roleMap.clear();
         alivePlayers.clear();
-        List<Player> shuffledPlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
-        Collections.shuffle(shuffledPlayers);
 
         for(int i = 0; i < shuffledPlayers.size(); i++) {
             UUID id = shuffledPlayers.get(i).getUniqueId();
             alivePlayers.add(id);
-            shuffledPlayers.get(i).teleportAsync(Bukkit.getWorld(settings.worldName()).getSpawnLocation());
 
             if(i < settings.moleCount()) {
                 roleMap.put(shuffledPlayers.get(i).getUniqueId(), Role.MOLE);
@@ -59,8 +84,6 @@ public class GameManager {
 
             roleMap.put(shuffledPlayers.get(i).getUniqueId(), Role.SURVIVOR);
         }
-
-        gameStarted = true;
     }
 
     public void handlePlayerDeath(PlayerDeathEvent event) {
