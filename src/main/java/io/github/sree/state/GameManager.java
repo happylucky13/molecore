@@ -15,6 +15,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class GameManager {
     private final MolecorePlugin plugin;
@@ -119,7 +120,21 @@ public class GameManager {
         }
     }
 
+    public Set<Player> getPlayersWithRole(Role role) {
+        return roleMap.entrySet().stream()
+                .filter(entry -> entry.getValue() == role)
+                .map(entry -> Bukkit.getPlayer(entry.getKey()))
+                .filter(Objects::nonNull)
+                .collect(Collectors.toSet());
+    }
+
     private void endGame(Winner winner) {
-        return;
+        switch (winner) {
+            case Winner.MOLES:
+                animationManager.endGameSequence(winner, getPlayersWithRole(Role.MOLE));
+                break;
+            case Winner.SURVIVORS:
+                animationManager.endGameSequence(winner, getPlayersWithRole(Role.SURVIVOR));
+        }
     }
 }

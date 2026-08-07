@@ -2,6 +2,7 @@ package io.github.sree.state;
 
 import io.github.sree.MolecorePlugin;
 import io.github.sree.enums.Role;
+import io.github.sree.enums.Winner;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -12,6 +13,7 @@ import org.bukkit.scheduler.BukkitScheduler;
 
 import java.time.Duration;
 import java.util.Map;
+import java.util.Set;
 
 public class GameAnimationManager {
     private final MolecorePlugin plugin;
@@ -141,6 +143,24 @@ public class GameAnimationManager {
                     );
                 }
             }, 20 * i);
+        }
+    }
+
+    public void endGameSequence(Winner winner, Set<Player> winners) {
+        NamedTextColor color = winner == Winner.SURVIVORS ? NamedTextColor.GREEN : NamedTextColor.RED;
+
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            player.showTitle(
+                    Title.title(
+                            Component.text("Game Over!", NamedTextColor.GOLD),
+                            Component.text("The ", NamedTextColor.WHITE)
+                                    .append(Component.text(winner.name(), color))
+                                    .append(Component.text(" have won!", NamedTextColor.WHITE))
+                    )
+            );
+
+            player.sendMessage(Component.text("-- WINNERS --", color));
+            winners.forEach(name -> player.sendMessage(Component.text(name.getName())));
         }
     }
 }
