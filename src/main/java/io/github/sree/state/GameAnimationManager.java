@@ -111,11 +111,21 @@ public class GameAnimationManager {
     }
 
     private void startCountdown(Map<Player, Role> players) {
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 4; i++) {
             int timerCount = i;
 
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 for (Player player : players.keySet()) {
+                    if (timerCount > 2) {
+                        player.playSound(
+                                player.getLocation(),
+                                Sound.BLOCK_NOTE_BLOCK_PLING,
+                                1.0f,
+                                2.0f
+                        );
+                        continue;
+                    }
+
                     player.showTitle(
                             Title.title(
                                     Component.text(3 - timerCount, NamedTextColor.GOLD),
