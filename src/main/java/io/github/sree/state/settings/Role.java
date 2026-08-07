@@ -1,4 +1,4 @@
-package io.github.sree.state.player;
+package io.github.sree.state.settings;
 
 public enum Role {
     SURVIVOR,

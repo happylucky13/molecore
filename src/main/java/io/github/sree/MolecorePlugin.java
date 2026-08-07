@@ -2,6 +2,7 @@ package io.github.sree;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.sree.commands.MolecoreSettingsCommand;
+import io.github.sree.listeners.PlayerDeathListener;
 import io.github.sree.state.GameManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
@@ -13,7 +14,9 @@ public class MolecorePlugin extends JavaPlugin {
     @Override
     public void onEnable() {
         getLogger().info("Plugin started.");
-        GameManager gameManager = new GameManager();
+        GameManager gameManager = new GameManager(this);
+        PlayerDeathListener playerDeathListener = new PlayerDeathListener(gameManager);
+        getServer().getPluginManager().registerEvents(playerDeathListener, this);
 
 
         MolecoreSettingsCommand settingsCommand = new MolecoreSettingsCommand(gameManager);
