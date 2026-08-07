@@ -22,7 +22,7 @@ public class MolecoreSettingsCommand {
     }
 
     public LiteralArgumentBuilder<CommandSourceStack> createCommand() {
-        return Commands.literal("state")
+        return Commands.literal("settings")
                 .then(Commands.argument("mole_count", IntegerArgumentType.integer(1, 3))
                         .then(Commands.argument("world", StringArgumentType.string())
                                 .then(Commands.literal("beacon")

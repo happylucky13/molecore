@@ -2,6 +2,7 @@ package io.github.sree;
 
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import io.github.sree.commands.MolecoreSettingsCommand;
+import io.github.sree.commands.MolecoreStartCommand;
 import io.github.sree.listeners.PlayerDeathListener;
 import io.github.sree.state.GameManager;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -20,9 +21,11 @@ public class MolecorePlugin extends JavaPlugin {
 
 
         MolecoreSettingsCommand settingsCommand = new MolecoreSettingsCommand(gameManager);
+        MolecoreStartCommand startCommand = new MolecoreStartCommand(gameManager);
 
         LiteralCommandNode<CommandSourceStack> molecoreCommand = Commands.literal("molecore")
                 .then(settingsCommand.createCommand())
+                .then(startCommand.createCommand())
                 .build();
 
         this.getLifecycleManager().registerEventHandler(LifecycleEvents.COMMANDS, commands -> {
