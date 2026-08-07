@@ -6,9 +6,7 @@ import io.github.sree.state.settings.Objective;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class GameManager {
     private GameSettings settings = new GameSettings(2, Objective.WITHER, "world");
@@ -22,5 +20,18 @@ public class GameManager {
         settings = new GameSettings(moleCount, objective, worldName);
     }
 
+    public void startGame() {
+        roleMap.clear();
+        List<Player> shuffledPlayers = new ArrayList<>(Bukkit.getOnlinePlayers());
+        Collections.shuffle(shuffledPlayers);
 
+        for(int i = 0; i < shuffledPlayers.size(); i++) {
+            if(i < settings.moleCount()) {
+                roleMap.put(shuffledPlayers.get(i).getUniqueId(), Role.MOLE);
+                continue;
+            }
+
+            roleMap.put(shuffledPlayers.get(i).getUniqueId(), Role.SURVIVOR);
+        }
+    }
 }
