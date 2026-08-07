@@ -6,11 +6,9 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.context.CommandContext;
 import io.github.sree.state.GameManager;
-import io.github.sree.state.settings.GameSettings;
-import io.github.sree.state.settings.Objective;
+import io.github.sree.enums.Objective;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
-import io.papermc.paper.command.brigadier.argument.ArgumentTypes;
 import org.bukkit.command.CommandSender;
 
 public class MolecoreSettingsCommand {
@@ -23,7 +21,7 @@ public class MolecoreSettingsCommand {
 
     public LiteralArgumentBuilder<CommandSourceStack> createCommand() {
         return Commands.literal("settings")
-                .then(Commands.argument("mole_count", IntegerArgumentType.integer(1, 3))
+                .then(Commands.argument("mole_count", IntegerArgumentType.integer(0, 3))
                         .then(Commands.argument("world", StringArgumentType.string())
                                 .then(Commands.literal("beacon")
                                         .executes(this::setBeaconSettings)

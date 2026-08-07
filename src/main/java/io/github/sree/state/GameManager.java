@@ -1,9 +1,8 @@
 package io.github.sree.state;
 
 import io.github.sree.MolecorePlugin;
-import io.github.sree.state.settings.Role;
-import io.github.sree.state.settings.GameSettings;
-import io.github.sree.state.settings.Objective;
+import io.github.sree.enums.Role;
+import io.github.sree.enums.Objective;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
@@ -69,7 +68,7 @@ public class GameManager {
         gameStarted = true;
     }
 
-    public void assignRoles(List<Player> shuffledPlayers) {
+    private void assignRoles(List<Player> shuffledPlayers) {
         roleMap.clear();
         alivePlayers.clear();
 
@@ -99,5 +98,9 @@ public class GameManager {
         alivePlayers.remove(player.getUniqueId());
 
         event.deathMessage(null);
+    }
+
+    public void checkWinCondition(boolean objectiveCompleted) {
+
     }
 }

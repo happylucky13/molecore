@@ -1,7 +1,7 @@
 package io.github.sree.state;
 
 import io.github.sree.MolecorePlugin;
-import io.github.sree.state.settings.Role;
+import io.github.sree.enums.Role;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.title.Title;
@@ -28,12 +28,12 @@ public class GameAnimationManager {
 
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             revealRoles(players);
-        }, 75L);
+        }, 70L);
 
     }
 
     private void revealRoles(Map<Player, Role> players) {
-        int[] delays = {0, 5, 10, 15, 25, 40, 60, 90};
+        int[] delays = {0, 2, 4, 6, 8, 10, 14, 18, 25, 40, 60};
 
         for (int i = 0; i < delays.length; i++) {
             int animationStep = i;
@@ -54,7 +54,7 @@ public class GameAnimationManager {
                                     Component.empty(),
                                     Title.Times.times(
                                             Duration.ZERO,
-                                            Duration.ofMillis(100),
+                                            Duration.ofSeconds(3),
                                             Duration.ZERO
                                     )
                             )
@@ -94,10 +94,10 @@ public class GameAnimationManager {
                 player.playSound(
                         player.getLocation(),
                         sound,
-                        1.0f,
+                        1.5f,
                         1.0f
                 );
-            }, 120L);
+            }, 80L);
         }
     }
 
