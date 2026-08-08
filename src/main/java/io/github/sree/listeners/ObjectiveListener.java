@@ -9,11 +9,10 @@ import org.bukkit.event.inventory.CraftItemEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 
-public class ObjectiveListener implements Listener {
-    private final GameManager gameManager;
+public class ObjectiveListener extends GameListener {
 
     public ObjectiveListener(GameManager gameManager) {
-        this.gameManager = gameManager;
+        super(gameManager);
     }
 
     @EventHandler

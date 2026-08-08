@@ -11,11 +11,10 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 
-public class PlayerDeathListener implements Listener {
-    private final GameManager gameManager;
+public class PlayerDeathListener extends GameListener {
 
     public PlayerDeathListener(GameManager gameManager) {
-        this.gameManager = gameManager;
+        super(gameManager);
     }
 
     @EventHandler
