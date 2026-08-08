@@ -9,7 +9,6 @@ import net.kyori.adventure.title.Title;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitScheduler;
 
 import java.time.Duration;
 import java.util.Map;
@@ -25,13 +24,9 @@ public class GameAnimationManager {
     public void startGameSequence(Map<Player, Role> players, Runnable onCountdownFinished) {
         startCountdown(players);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            onCountdownFinished.run();
-        }, 60L);
+        Bukkit.getScheduler().runTaskLater(plugin, onCountdownFinished, 60L);
 
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            revealRoles(players);
-        }, 70L);
+        Bukkit.getScheduler().runTaskLater(plugin, () -> revealRoles(players), 70L);
 
     }
 

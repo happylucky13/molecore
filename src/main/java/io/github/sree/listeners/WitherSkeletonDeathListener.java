@@ -5,7 +5,6 @@ import io.github.sree.state.GameManager;
 import org.bukkit.Material;
 import org.bukkit.entity.WitherSkeleton;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
