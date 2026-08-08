@@ -136,5 +136,7 @@ public class GameManager {
             case Winner.SURVIVORS:
                 animationManager.endGameSequence(winner, getPlayersWithRole(Role.SURVIVOR));
         }
+
+        gameStarted = false;
     }
 }

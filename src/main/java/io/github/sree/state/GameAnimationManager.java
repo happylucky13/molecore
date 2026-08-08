@@ -46,7 +46,7 @@ public class GameAnimationManager {
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
                 Role fakeRole = animationStep % 2 == 0 ? Role.SURVIVOR : Role.MOLE;
                 NamedTextColor color = fakeRole == Role.SURVIVOR ? NamedTextColor.GREEN : NamedTextColor.RED;
-                float pitch = 0.8f + (animationStep * 0.1f);
+                float pitch = 0.8f + (animationStep * 0.05f);
 
                 for (Player player : players.keySet()) {
                     player.showTitle(
@@ -155,8 +155,20 @@ public class GameAnimationManager {
                             Component.text("Game Over!", NamedTextColor.GOLD),
                             Component.text("The ", NamedTextColor.WHITE)
                                     .append(Component.text(winner.name(), color))
-                                    .append(Component.text(" have won!", NamedTextColor.WHITE))
+                                    .append(Component.text(" have won!", NamedTextColor.WHITE)),
+                            Title.Times.times(
+                                    Duration.ofMillis(500),
+                                    Duration.ofSeconds(6),
+                                    Duration.ofMillis(500)
+                            )
                     )
+            );
+
+            player.playSound(
+                    player.getLocation(),
+                    Sound.ENTITY_ENDER_DRAGON_GROWL,
+                    1.0f,
+                    1.0f
             );
 
             player.sendMessage(Component.text("-- WINNERS --", color));

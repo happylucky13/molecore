@@ -9,6 +9,7 @@ import io.github.sree.state.GameManager;
 import io.github.sree.enums.Objective;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
 import io.papermc.paper.command.brigadier.Commands;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.CommandSender;
 
 public class MolecoreSettingsCommand {
@@ -40,6 +41,8 @@ public class MolecoreSettingsCommand {
 
         gameManager.setSettings(moleCount, Objective.WITHER, worldName);
 
+        sender.sendMessage(Component.text("Settings updated!"));
+
         return Command.SINGLE_SUCCESS;
     }
 
@@ -49,6 +52,8 @@ public class MolecoreSettingsCommand {
         String worldName = ctx.getArgument("world", String.class);
 
         gameManager.setSettings(moleCount, Objective.DRAGON, worldName);
+
+        sender.sendMessage(Component.text("Settings updated!"));
 
         return Command.SINGLE_SUCCESS;
     }
